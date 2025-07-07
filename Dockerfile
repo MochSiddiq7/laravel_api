@@ -14,6 +14,9 @@ RUN apt-get update && apt-get install -y \
     npm \
     nodejs \
     default-mysql-client
+    
+RUN php artisan config:clear && php artisan config:cache
+RUN php artisan migrate --force || true
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
