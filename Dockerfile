@@ -14,9 +14,6 @@ RUN apt-get update && apt-get install -y \
     npm \
     nodejs \
     default-mysql-client
-    
-RUN php artisan config:clear && php artisan config:cache
-RUN php artisan migrate --force || true
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
@@ -33,8 +30,18 @@ COPY . .
 # Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Expose port
-EXPOSE 8000
+# Set correct permissions
+RUN mkdir -p bootstrap/cache && \
+    chmod -R 775 storage bootstrap/cache
 
-# Start Laravel server
-CMD php artisan serve --host=0.0.0.0 --port=8000
+# Optional: clear & cache config (boleh kamu aktifkan kalau sudah stabil)
+# RUN php artisan config:clear && php artisan config:cache
+
+# Optional: Run migration (gunakan jika kamu yakin DB sudah ready)
+# RUN php artisan migrate --force || true
+
+# Expose correct port for Render (8080)
+EXPOSE 8080
+
+# Start Laravel server (on port 8080)
+CMD php artisan serve --host=0.0.0.0 --port=8080
