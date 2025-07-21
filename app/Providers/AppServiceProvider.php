@@ -19,14 +19,12 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-        // Paksa HTTPS jika bukan local
-        if (env('APP_ENV') !== 'local' && env('APP_URL') !== 'http://127.0.0.1:8000') {
-            URL::forceScheme('https');
-        }
+    use Illuminate\Support\Facades\DB;
 
-        // Ganti schema ke "reservasi"
-        DB::statement('SET search_path TO reservasi');
-    }
+public function boot(): void
+{
+    // Set schema PostgreSQL Supabase
+    DB::statement('SET search_path TO reservasi');
+}
+
 }
