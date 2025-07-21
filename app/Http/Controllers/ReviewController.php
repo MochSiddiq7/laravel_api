@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Review;
+use Illuminate\Support\Facades\Log;
 
 class ReviewController extends Controller
 {
@@ -20,13 +21,18 @@ class ReviewController extends Controller
             'keluhan' => 'required|string',
         ]);
 
-        Review::create([
-            'nama_teknisi' => $request->namaTeknisi,
-            'bintang' => $request->rating,
-            'keluhan' => $request->keluhan,
-        ]);
+        try {
+            Review::create([
+                'nama_teknisi' => $request->namaTeknisi,
+                'bintang' => $request->rating,
+                'keluhan' => $request->keluhan,
+            ]);
 
-        return redirect()->route('review')->with('success', 'Review berhasil disimpan!');
+            return redirect()->route('review')->with('success', 'Review berhasil disimpan!');
+        } catch (\Exception $e) {
+            Log::error('Review store error: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menyimpan review. Silakan coba lagi.');
+        }
     }
 
     public function index()
@@ -35,5 +41,3 @@ class ReviewController extends Controller
         return view('admin.review.index', compact('reviews'));
     }
 }
-
-
