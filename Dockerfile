@@ -13,10 +13,10 @@ RUN apt-get update && apt-get install -y \
     git \
     npm \
     nodejs \
-    default-mysql-client
+    postgresql-client
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -34,14 +34,8 @@ RUN composer install --no-dev --optimize-autoloader
 RUN mkdir -p bootstrap/cache && \
     chmod -R 775 storage bootstrap/cache
 
-# Optional: clear & cache config (boleh kamu aktifkan kalau sudah stabil)
-# RUN php artisan config:clear && php artisan config:cache
-
-# Optional: Run migration (gunakan jika kamu yakin DB sudah ready)
-# RUN php artisan migrate --force || true
-
-# Expose correct port for Render (8080)
+# Expose port
 EXPOSE 8080
 
-# Start Laravel server (on port 8080)
+# Start Laravel server
 CMD php artisan serve --host=0.0.0.0 --port=8080
