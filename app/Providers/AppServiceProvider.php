@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\DB; // <- letakkan di sini, DI LUAR class
+use Illuminate\Support\Facades\DB;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,12 +19,17 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    use Illuminate\Support\Facades\DB;
+ 
 
-public function boot(): void
-{
-    // Set schema PostgreSQL Supabase
-    DB::statement('SET search_path TO reservasi');
-}
-
+    public function boot(): void
+    {
+        // Paksa HTTPS jika bukan local
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
+    
+        // SET schema PostgreSQL ke 'reservasi'
+        DB::statement('SET search_path TO reservasi');
+    }
+    
 }
