@@ -11,6 +11,10 @@ class Review extends Model
 
     protected $table = 'tb_review';
 
+    protected $primaryKey = 'id_review';
+
+    public $timestamps = false;
+
     protected $fillable = [
         'nama_teknisi',
         'bintang',
