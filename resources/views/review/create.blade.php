@@ -10,37 +10,36 @@
             </div>
         @endif
 
-        <div class="form-container">
-            <form method="POST" action="{{ route('review.store') }}">
-                @csrf
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
 
-                <!-- Technician's Name -->
-                <div class="mb-3">
-                    <label for="namaTeknisi" class="form-label">Nama Teknisi</label>
-                    <input type="text" class="form-control" id="namaTeknisi" name="namaTeknisi"
-                        placeholder="Enter technician's name" required>
+        <form method="POST" action="{{ route('review.store') }}">
+            @csrf
+
+            <div class="mb-3">
+                <label for="namaTeknisi" class="form-label">Nama Teknisi</label>
+                <input type="text" class="form-control" id="namaTeknisi" name="namaTeknisi" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="rating" class="form-label">Rating</label>
+                <div class="stars">
+                    @for($i = 1; $i <= 5; $i++)
+                        <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" required>
+                        <label for="star{{ $i }}">★</label>
+                    @endfor
                 </div>
+            </div>
 
-                <!-- Star Rating -->
-                <div class="mb-3">
-                    <label for="rating" class="form-label">Rating</label>
-                    <div class="stars">
-                        @for($i = 1; $i <= 5; $i++)
-                            <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}">
-                            <label for="star{{ $i }}">★</label>
-                        @endfor
-                    </div>
-                </div>
+            <div class="mb-3">
+                <label for="keluhan" class="form-label">Keluhan</label>
+                <textarea class="form-control" id="keluhan" name="keluhan" rows="4" required></textarea>
+            </div>
 
-                <!-- Complaint -->
-                <div class="mb-3">
-                    <label for="keluhan" class="form-label">Keluhan</label>
-                    <textarea class="form-control" id="keluhan" name="keluhan" rows="4" placeholder="Enter your complaint"
-                        required></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Submit Review</button>
-            </form>
-        </div>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
     </div>
 @endsection
