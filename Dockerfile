@@ -13,10 +13,13 @@ RUN apt-get update && apt-get install -y \
     git \
     npm \
     nodejs \
+    default-mysql-client \
+    libpq-dev \
     postgresql-client
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install pdo pdo_pgsql pgsql pdo_mysql mbstring exif pcntl bcmath gd
+
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
