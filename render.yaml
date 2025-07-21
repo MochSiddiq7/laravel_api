@@ -10,7 +10,7 @@ services:
       - key: APP_ENV
         value: production
       - key: APP_KEY
-        value: base64:E5u0SspKCfO8O6bTFEK4n5cZhZvVXPjymaT7LOZObUo=
+        value: base64:HH3puUeXlsuKfDWrQ8XBNC0yRBlOy+6gVSV2k2XUz4M=
       - key: APP_DEBUG
         value: false
       - key: APP_URL
@@ -21,18 +21,19 @@ services:
       - key: LOG_LEVEL
         value: debug
 
+      # ✅ DATABASE BARU
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
-        value: turntable.proxy.rlwy.net
+        value: centerbeam.proxy.rlwy.net
       - key: DB_PORT
-        value: 36426
+        value: 27144
       - key: DB_DATABASE
         value: railway
       - key: DB_USERNAME
         value: root
       - key: DB_PASSWORD
-        value: qHAGPJHvsPzVwrwoIzAPnLKiblejMxXj
+        value: TefMkkJSDGMOSqIjBtdWJhqBYQbmPTtx
 
       - key: SESSION_DRIVER
         value: database
